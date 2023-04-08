@@ -1,7 +1,7 @@
-const express = require('express');
-const dotenv = require('dotenv');
+import express from 'express';
+import { config } from 'dotenv';
 
-dotenv.config();
+config();
 
 const app = express();
 const port = process.env.PORT ?? 3333; // if port not present in .env file then run on 3333
