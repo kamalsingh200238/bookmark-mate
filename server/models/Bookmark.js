@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // A user schema with a username,email and password
-const UserSchema = new mongoose.Schema(
+const BookmarkSchema = new mongoose.Schema(
   {
     // nameofBookMark is a string and its required
     nameOfBookmark: {
@@ -20,4 +20,4 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Bookmark", BookmarkSchema);
