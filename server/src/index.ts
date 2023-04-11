@@ -2,7 +2,7 @@ import express from 'express';
 import { config } from 'dotenv';
 import mongoose from 'mongoose';
 // routes
-// import mainRoutes from 
+import mainRoutes from '../routes/main.js'  //error here
 
 config();
 
@@ -20,7 +20,9 @@ app.get('/', (req, res) => {
 });
 
 
-// app.use("/", mainRoutes);
+app.use("/", mainRoutes);
+
+
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
