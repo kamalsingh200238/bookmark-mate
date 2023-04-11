@@ -1,6 +1,8 @@
 import express from 'express';
 import { config } from 'dotenv';
 import mongoose from 'mongoose';
+// routes
+// import mainRoutes from 
 
 config();
 
@@ -16,6 +18,9 @@ mongoose.connect(db)
 app.get('/', (req, res) => {
   res.send('Express + TypeScript Server which is typescript Now. ');
 });
+
+
+// app.use("/", mainRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
