@@ -1,7 +1,13 @@
-const mongoose = require("mongoose");
+import { Schema, model } from 'mongoose';
+
+export interface IUser {
+  username: String;
+  email: String;
+  password: String;
+}
 
 // A user schema with a username,email and password
-const UserSchema = new mongoose.Schema(
+const UserSchema = new Schema<IUser>(
   {
     // username is a string,with a minimum of 4 characters,all usernames should be unique,and its required of all users
     username: {
@@ -10,8 +16,8 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
-    // email is a string,with a minimum of 4 characters and is reqired for all users
 
+    // email is a string,with a minimum of 4 characters and is reqired for all users
     email: {
       type: String,
       required: true,
@@ -19,7 +25,6 @@ const UserSchema = new mongoose.Schema(
     },
 
     // password is a string,with a minimum of 8 characters and is required for all users
-
     password: {
       type: String,
       min: 8,
@@ -31,4 +36,5 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+const User = model<IUser>('User', UserSchema);
+export default User;
