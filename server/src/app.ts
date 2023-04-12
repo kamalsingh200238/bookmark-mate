@@ -9,6 +9,8 @@ dotenv.config(); // setting up dotenv to use .env varaible
 const app = express();
 const port = process.env.PORT ?? 3333; // if port not present in .env file then run on 3333
 
+app.use(express.json()) // This will parse JSON data in incoming requests
+
 /* ==============================================
 ========== Database Setup
 ================================================*/
