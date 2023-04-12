@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rimraf dist && npx tsc",
     "predev": "npm run build",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon dist/index.js\" "
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon dist/app.js\" "
   },
   "repository": {
     "type": "git",
