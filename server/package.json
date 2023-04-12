@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rimraf dist && npx tsc",
     "predev": "npm run build",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon dist/app.js\" "
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon dist/app.js\" ",
+    "format": "npx prettier -w ."
   },
   "repository": {
     "type": "git",
@@ -31,5 +32,21 @@
     "concurrently": "^8.0.1",
     "nodemon": "^2.0.22",
     "typescript": "^5.0.4"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "arrowParens": "always",
+    "bracketSameLine": false,
+    "bracketSpacing": true,
+    "embeddedLanguageFormatting": "auto",
+    "insertPragma": false,
+    "printWidth": 80,
+    "proseWrap": "preserve",
+    "quoteProps": "as-needed",
+    "requirePragma": false,
+    "singleAttributePerLine": false,
+    "tabWidth": 2,
+    "useTabs": false
   }
 }
