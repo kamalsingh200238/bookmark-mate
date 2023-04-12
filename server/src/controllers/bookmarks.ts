@@ -1,8 +1,8 @@
-import { Response, Request } from "express";
-import Bookmark from "../models/Bookmark";
+import { Response, Request } from 'express';
+import Bookmark from '../models/Bookmark';
 
 export const singleTest = async (req: Request, res: Response) => {
-  res.send("test mvc structure");
+  res.send('test mvc structure');
   console.log("'/api/v1/bookmarks' This api is working fine.");
 };
 
@@ -15,10 +15,10 @@ export const addBookmark = async (req: Request, res: Response) => {
       urlOfBookmark,
     });
     await bookmark.save();
-    console.log("Bookmark added!");
+    console.log('Bookmark added!');
     res.json(200).json(bookmark);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Error with posting bookmark" });
+    res.status(500).json({ message: 'Error with posting bookmark' });
   }
 };

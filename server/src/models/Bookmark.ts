@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 export interface IBookmark {
   nameOfBookmark: String;
@@ -25,5 +25,5 @@ const BookmarkSchema = new Schema<IBookmark>(
   }
 );
 
-const Bookmark = model("Bookmark", BookmarkSchema);
+const Bookmark = model('Bookmark', BookmarkSchema);
 export default Bookmark;
