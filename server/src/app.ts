@@ -1,10 +1,10 @@
 import express from 'express';
-import { config } from 'dotenv';
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 // routes
 // import mainRoutes from '../routes/main.js'  //error here
 
-config(); // setting up config to use .env varaible
+dotenv.config(); // setting up dotenv to use .env varaible
 
 const app = express();
 const port = process.env.PORT ?? 3333; // if port not present in .env file then run on 3333
