@@ -11,6 +11,8 @@ const port = process.env.PORT ?? 3333; // if port not present in .env file then 
 // middlewares
 app.use(express.json()); // This will parse JSON data in incoming requests
 
+
+
 app.get('/', (_req, res) => {
   res.send('Express + TypeScript Server which is typescript Now. ');
 });
