@@ -12,7 +12,6 @@ export const singleTest = async (req: Request, res: Response) => {
 };
 
 export const addBookmark = async (req: Request, res: Response) => {
-  console.log(req)
   console.log("name", req.body.nameOfBookmark, "url", req.body.urlOfBookmark)
 
   try {
