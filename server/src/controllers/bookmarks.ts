@@ -26,3 +26,42 @@ export const addBookmark = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error with posting bookmark' });
   }
 };
+
+//delete bookmark of a user
+export const deleteBookmark = async (req: Request, res: Response) => {
+  //finds a single document by its _id field
+  const bookmark = await Bookmark.findById(req.params.id)
+  if (!bookmark) {
+    console.log("Bookmark doesn't exist!")
+    //no results, no user error, expected response
+    return res.status(200).json({ message: 'Bookmark not found!' })
+  }
+  try {
+    //Issue a MongoDB findOneAndDelete() command by document's _id field
+    //findOneAndDelete(id) is shorthand for findOneAndDelete({_id:id})
+    let deletedResult = await Bookmark.findByIdAndDelete(req.params.id)
+    console.log(`${deletedResult} removed!`)
+    res.status(200).json({ message: 'Bookmark deleted!'})
+  } catch(error) {
+    console.log(error)
+    res.status(500).json({message: 'Error with removing bookmark'})
+  }
+}
+
+//find bookmark by id
+export const findBookmark = async (req: Request, res: Response) => {
+  try {
+    let bookmark = await Bookmark.findById(req.params.id)
+    if (!bookmark) {
+      console.log("Bookmark doesn't exist!")
+      //no results, no user error, expected response
+      return res.status(200).json({ message: 'Bookmark does not exist!' })
+    }
+    console.log(`Bookmark found! ${bookmark}`)
+    res.status(200).json({ message: 'Bookmark found!'})
+  } catch(error) {
+    console.log(error)
+    res.status(500).json({ message: 'Error finding bookmark!' })
+  }
+}
+
