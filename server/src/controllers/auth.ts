@@ -1,6 +1,10 @@
 import express from 'express'
 import { Response, Request } from 'express';
 import User from '../models/User';
+import dotenv from 'dotenv';
+dotenv.config(); // setting up dotenv to use .env varaible
+
+
 // import { genSalt, hash } from "bcrypt-ts";
 import jwt from 'jsonwebtoken'
 
