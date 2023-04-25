@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 
 const app = express();
 app.use(express.json());
-const secret=process.env.SECRET
+const secret=process.env.SECRET as string
 
 export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
