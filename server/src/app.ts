@@ -2,11 +2,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import bookmarks from './routes/bookmarks';
+import auth from './routes/auth';
 
 dotenv.config(); // setting up dotenv to use .env varaible
 
 const app = express();
 const port = process.env.PORT ?? 3333; // if port not present in .env file then run on 3333
+console.log("check for env port", process.env.PORT)
 
 // middlewares
 app.use(express.json()); // This will parse JSON data in incoming requests
@@ -19,9 +21,12 @@ app.get('/', (_req, res) => {
 
 // routes
 app.use('/api/v1/bookmarks/', bookmarks);
+app.use('/api/v1/auth/', auth);
+
 
 async function start() {
   const db = process.env.DB_STRING as string; //set db to the DB_STRING from the env file
+  console.log("check for env", process.env.DB_STRING)
   // connect to database
   await mongoose
     .connect(db)
