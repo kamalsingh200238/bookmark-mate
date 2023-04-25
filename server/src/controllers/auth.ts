@@ -2,6 +2,7 @@ import express from 'express'
 import { Response, Request } from 'express';
 import User from '../models/User';
 // import { genSalt, hash } from "bcrypt-ts";
+import jwt from 'jsonwebtoken'
 
 
 const app = express();
