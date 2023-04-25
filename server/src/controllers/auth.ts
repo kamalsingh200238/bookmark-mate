@@ -68,10 +68,7 @@ export const login = async (req: Request,res: Response) => {
           if (err) throw err;
           console.log("token before", token);
           res
-            .cookie("token", token, {
-              sameSite: "none",
-              secure: true,
-            })
+            .cookie("token", token)
             .json({
               id: user._id,
               username,
@@ -81,4 +78,25 @@ export const login = async (req: Request,res: Response) => {
         }
       );
      
+}
+
+export const profile =async(req: Request,res: Response)=>{
+  console.log("Token:", req.cookies.token);
+
+  jwt.verify(req.cookies.token, secret, {}, (error, user) => {
+    if (error) {
+      console.log(error);
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    res.json(user);
+  });
+}
+
+export const logout =async(req: Request,res: Response)=>{
+  console.log("Token:", req.cookies.token);
+
+  console.log("logging out");
+  res.cookie("token", "").json("ok"); //sets "token" to empty/invalid
+  
+  
 }
