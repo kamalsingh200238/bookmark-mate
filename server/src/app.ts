@@ -23,8 +23,8 @@ app.get('/', (_req, res) => {
 app.use('/api/v1/bookmarks/', bookmarks);
 app.use('/api/v1/auth/', auth);
 
-app.get('/api/v1/:id/find', findBookmark)
-app.delete('/api/v1/:id/delete', deleteBookmark) 
+//app.get('/api/v1/:id/find', findBookmark)
+//app.delete('/api/v1/:id/delete', deleteBookmark) 
 
 async function start() {
   const db = process.env.DB_STRING as string; //set db to the DB_STRING from the env file
