@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import bookmarks from './routes/bookmarks';
 import auth from './routes/auth'; 
 import cookieParser from 'cookie-parser';
-import { findBookmark, deleteBookmark } from './controllers/bookmarks';
 
 dotenv.config(); // setting up dotenv to use .env varaible
 
@@ -22,9 +21,6 @@ app.get('/', (_req, res) => {
 // routes
 app.use('/api/v1/bookmarks/', bookmarks);
 app.use('/api/v1/auth/', auth);
-
-//app.get('/api/v1/:id/find', findBookmark)
-//app.delete('/api/v1/:id/delete', deleteBookmark) 
 
 async function start() {
   const db = process.env.DB_STRING as string; //set db to the DB_STRING from the env file
