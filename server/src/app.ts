@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import bookmarks from './routes/bookmarks';
-import auth from './routes/auth'; 
+import auth from './routes/auth';
 import cookieParser from 'cookie-parser';
 
 dotenv.config(); // setting up dotenv to use .env varaible
