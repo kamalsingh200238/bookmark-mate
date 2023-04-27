@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
 
 export interface IUser {
-  username: String;
-  email: String;
-  password: String;
+  username: string;
+  email: string;
+  password: string;
 }
 
 // A user schema with a username,email and password
