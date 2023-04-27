@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
 
 export interface IBookmark {
-  nameOfBookmark: String;
-  urlOfBookmark: String;
+  nameOfBookmark: string;
+  urlOfBookmark: string;
 }
 
 // Bookmark Schema with nameofBookMark, urlOfBookMark
