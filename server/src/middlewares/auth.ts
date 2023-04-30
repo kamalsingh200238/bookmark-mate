@@ -30,7 +30,11 @@ export const auth = async (
     ) as Payload;
 
     // attach the user to the request
-    req.user = { userId: payload.userId, username: payload.username, email: payload.email };
+    req.user = {
+      userId: payload.userId,
+      username: payload.username,
+      email: payload.email,
+    };
 
     // call the next function
     next();
