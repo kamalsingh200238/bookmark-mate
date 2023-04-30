@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 export interface IUser {
   username: string;
@@ -35,6 +36,14 @@ const UserSchema = new Schema<IUser>(
     timestamps: true,
   }
 );
+
+// function that will automatically hash the passwords and then save them in the database
+UserSchema.pre('save', async function() {
+  // generate salt
+  const salt = await bcrypt.genSalt(10);
+  // hash the password and then save it
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
 const User = model<IUser>('User', UserSchema);
 export default User;
