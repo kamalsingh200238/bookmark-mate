@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export interface IUser {
   username: string;
@@ -38,12 +39,24 @@ const UserSchema = new Schema<IUser>(
 );
 
 // function that will automatically hash the passwords and then save them in the database
-UserSchema.pre('save', async function() {
+UserSchema.pre('save', async function () {
   // generate salt
   const salt = await bcrypt.genSalt(10);
   // hash the password and then save it
   this.password = await bcrypt.hash(this.password, salt);
 });
+
+UserSchema.methods.generateJWT = function () {
+  return jwt.sign(
+    {
+      userId: this._id,
+      username: this.username,
+      email: this.email,
+    },
+    '<JWT_SECRET>', // TODO: add jwt secret later
+    {} // TODO: add options later
+  );
+};
 
 const User = model<IUser>('User', UserSchema);
 export default User;
