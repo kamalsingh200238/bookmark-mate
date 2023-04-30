@@ -15,7 +15,7 @@ const UserSchema = new Schema<IUser>(
     username: {
       type: String,
       min: 4,
-      unique: true,
+      unique: true, //TODO: discuss to remove unique username
       required: true,
     },
 
@@ -47,6 +47,7 @@ UserSchema.pre('save', async function () {
 });
 
 UserSchema.methods.generateJWT = function () {
+  // return a jwt token
   return jwt.sign(
     {
       userId: this._id,
