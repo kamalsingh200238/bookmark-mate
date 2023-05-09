@@ -6,6 +6,7 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
+  generateJWT: () => string;
 }
 
 // A user schema with a username,email and password

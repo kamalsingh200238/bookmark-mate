@@ -17,24 +17,28 @@ export const register = async (req: Request, res: Response) => {
   console.log('username', username, 'email', email, 'password', password);
 
   try {
-    // async function hashPassword(password: string) {
-    //     const salt = await genSalt(10)
-    //     const hashedPassword = await hash(password, salt)
-    //     return hashedPassword
-    // }
-    const userExists = await User.findOne({ $or: [{ username, email }] });
+    // Check if a user with the provided username or email already exists in the database
+    const userExists = await User.findOne({ $or: [{ username }, { email }] });
     if (userExists) {
-      res.json('User already exists');
+      // If a user with the given username or email exists, return an error message
+      return res.json('User already exists');
     }
-    // const hashedPassword = await hashPassword(password)
+    // If the user doesn't exist, create a new user with the provided username, email, and password
     const user = await User.create({
       username: username,
       email: email,
       password: password,
     });
 
-    await user.save();
-    res.status(200).json(user);
+    // Generate a JWT token for the newly created user using the generateJWT method
+    const token = user.generateJWT();
+
+    // Set the JWT token as a cookie in the response
+    res.cookie('token', token).status(201).json({
+      id: user._id,
+      username,
+      email,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error });
