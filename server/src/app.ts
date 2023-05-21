@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import bookmarks from './routes/bookmarks';
 import auth from './routes/auth';
 import cookieParser from 'cookie-parser';
+import cors from "cors"
 
 dotenv.config(); // setting up dotenv to use .env variable
 
@@ -11,6 +12,8 @@ console.log('process.env.DB_STRING', process.env.DB_STRING);
 
 const app = express();
 const port = process.env.PORT ?? 3333; // if port not present in .env file then run on 3333
+
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 // middlewares
 app.use(express.json()); // This will parse JSON data in incoming requests

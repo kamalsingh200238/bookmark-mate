@@ -21,7 +21,7 @@ export const register = async (req: Request, res: Response) => {
     const userExists = await User.findOne({ $or: [{ username }, { email }] });
     if (userExists) {
       // If a user with the given username or email exists, return an error message
-      return res.json('User already exists');
+      return res.json('User already exists.');
     }
     // If the user doesn't exist, create a new user with the provided username, email, and password
     const user = await User.create({
@@ -47,7 +47,7 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
-  const user = await User.findOne({ username, email }).exec();
+  const user = await User.findOne({ username, email,password }).exec();
 
   if (!user) {
     // User not found
