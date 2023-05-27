@@ -16,7 +16,6 @@ const UserSchema = new Schema<IUser>(
     username: {
       type: String,
       min: 4,
-      unique: true, //TODO: discuss to remove unique username
       required: true,
     },
 
@@ -41,10 +40,8 @@ const UserSchema = new Schema<IUser>(
 
 // function that will automatically hash the passwords and then save them in the database
 UserSchema.pre('save', async function () {
-  // generate salt
-  const salt = await bcrypt.genSalt(10);
-  // hash the password and then save it
-  this.password = await bcrypt.hash(this.password, salt);
+  const salt = await bcrypt.genSalt(10); // generate salt
+  this.password = await bcrypt.hash(this.password, salt); // hash the password and then save it
 });
 
 UserSchema.methods.generateJWT = function () {
@@ -55,7 +52,7 @@ UserSchema.methods.generateJWT = function () {
       username: this.username,
       email: this.email,
     },
-    '<JWT_SECRET>', // TODO: add jwt secret later
+    process.env.JWT_SECRET as string,
     {} // TODO: add options later
   );
 };
