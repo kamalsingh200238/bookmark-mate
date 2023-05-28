@@ -1,8 +1,8 @@
-import { Schema, model } from 'mongoose';
+import { Document, Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-export interface IUser {
+export interface UserDocument extends Document {
   username: string;
   email: string;
   password: string;
@@ -10,13 +10,14 @@ export interface IUser {
 }
 
 // A user schema with a username,email and password
-const UserSchema = new Schema<IUser>(
+const UserSchema = new Schema<UserDocument>(
   {
     // username is a string,with a minimum of 4 characters,all usernames should be unique,and its required of all users
     username: {
       type: String,
       min: 4,
       required: true,
+      unique: false,
     },
 
     // email is a string,with a minimum of 4 characters and is reqired for all users
@@ -48,7 +49,7 @@ UserSchema.methods.generateJWT = function () {
   // return a jwt token
   return jwt.sign(
     {
-      userId: this._id,
+      _id: this._id,
       username: this.username,
       email: this.email,
     },
@@ -57,5 +58,5 @@ UserSchema.methods.generateJWT = function () {
   );
 };
 
-const User = model<IUser>('User', UserSchema);
+const User = model<UserDocument>('User', UserSchema);
 export default User;
