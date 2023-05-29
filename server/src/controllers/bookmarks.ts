@@ -1,45 +1,100 @@
-import express from 'express';
 import { Response, Request } from 'express';
 import Bookmark from '../models/Bookmark';
+import Joi from 'joi';
+import { UserDocument } from '../models/User';
 
-const app = express();
-app.use(express.json());
+const bookmarkSchema = Joi.object({
+  nameOfBookmark: Joi.string().required(),
+  urlOfBookmark: Joi.string().required(),
+});
 
-export const singleTest = async (req: Request, res: Response) => {
-  res.send('test mvc structure');
-  console.log("'/api/v1/bookmarks' This api is working fine.");
+export const getAllBookmarks = async (req: Request, res: Response) => {
+  try {
+    const user = req.user as UserDocument; // get user from request as User Document
+    const bookmarks = await Bookmark.find({ user: user }); // get all bookmarks created by the user
+    res.json({ bookmarks });
+  } catch (error) {
+    console.log('There was an error', error);
+    res.status(500).json({ message: 'Internal server error', error: error });
+  }
 };
 
 export const addBookmark = async (req: Request, res: Response) => {
-  console.log('name', req.body.nameOfBookmark, 'url', req.body.urlOfBookmark);
-
+  const user = req.user as UserDocument; // get the user who made the request
+  const { nameOfBookmark, urlOfBookmark } = req.body; // get the data from body
+  // Validate the data in request
+  const { error } = bookmarkSchema.validate({ nameOfBookmark, urlOfBookmark });
+  if (error) {
+    // if there are errors
+    return res.status(400).json({ error: error.details[0].message });
+  }
   try {
+    // create new bookmark
     const bookmark = await Bookmark.create({
-      nameOfBookmark: req.body.nameOfBookmark,
-      urlOfBookmark: req.body.urlOfBookmark,
+      nameOfBookmark,
+      urlOfBookmark,
+      user: user,
     });
     await bookmark.save();
-    console.log('Bookmark added!');
-    res.status(200).json(bookmark);
+    res.status(201).json(bookmark);
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error with posting bookmark' });
+    console.log('There was an error', error);
+    res.status(500).json({ message: 'Internal Sever Error', error: error });
   }
 };
 
 export const deleteBookmark = async (req: Request, res: Response) => {
+  const bookmarkId = req.params.id;
+  const user = req.user as UserDocument; // get the user who made the request
   try {
-    //Issue a MongoDB findOneAndDelete() command by document's _id field
-    //findOneAndDelete(id) is shorthand for findOneAndDelete({_id:id})
-    const response = await Bookmark.findByIdAndDelete(req.params.id);
+    // Check if the user owns the bookmark they are trying to delete
+    const response = await Bookmark.findOneAndDelete({
+      _id: bookmarkId,
+      user: user,
+    });
     if (response) {
-      console.log('Bookmark deleted!')
-      return res.status(200).json({ message: response})
+      // if bookmark deleted
+      return res
+        .status(200)
+        .json({ message: 'Bookmark deleted', bookmark: response });
     }
-    console.log('There is no bookmark to delete!');
-    res.status(404).json({ message: response });
+    // if there was no bookmark
+    res.status(404).json({ message: 'No bookmark found!' });
   } catch (error) {
-    console.log('There is an error!');
+    console.log('There was an error', error);
+    res.status(500).json({ message: 'Internal server error', error: error });
+  }
+};
+
+export const editBookmark = async (req: Request, res: Response) => {
+  const bookmarkId = req.params.id;
+  const user = req.user as UserDocument;
+  const { urlOfBookmark, nameOfBookmark } = req.body;
+  // Validate the data in request
+  const { error } = bookmarkSchema.validate({ urlOfBookmark, nameOfBookmark });
+  if (error) {
+    // if  error in data
+    return res.status(400).json({ error: error.details[0].message });
+  }
+  try {
+    const updatedBookmark = await Bookmark.findOneAndUpdate(
+      {
+        _id: bookmarkId,
+        user: user,
+      },
+      { urlOfBookmark, nameOfBookmark },
+      { new: true }
+    );
+    if (updatedBookmark) {
+      // if bookmark updated successfully
+      return res
+        .status(200)
+        .json({ message: 'Bookmark updated', bookmark: updatedBookmark });
+    }
+    // if there was no bookmark
+    res.status(404).json({ message: updatedBookmark });
+  } catch (error) {
+    console.log('There was an error', error);
     res.status(500).json({ message: error });
   }
 };
@@ -48,13 +103,13 @@ export const findBookmark = async (req: Request, res: Response) => {
   try {
     const bookmark = await Bookmark.findById(req.params.id);
     if (bookmark) {
-      console.log('Bookmark exists!');
+      // if bookmark exists
       return res.status(200).json({ message: bookmark });
     }
-    console.log('Bookmark not found!');
-    res.status(404).json({ message: bookmark });
+    // if bookmark not found
+    res.status(404).json({ message: 'bookmark not found ' });
   } catch (error) {
-    console.log('There is an error!');
+    console.log('There was an error', error);
     res.status(500).json({ message: error });
   }
 };
