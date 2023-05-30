@@ -10,6 +10,7 @@ const bookmarkSchema = Joi.object({
 
 export const getAllBookmarks = async (req: Request, res: Response) => {
   try {
+    console.log("req.user",req.user)
     const user = req.user as UserDocument; // get user from request as User Document
     const bookmarks = await Bookmark.find({ user: user }); // get all bookmarks created by the user
     res.json({ bookmarks });
