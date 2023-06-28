@@ -5,10 +5,10 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
-import User from './v1/models/User';
 import authMiddleware from './v1/middlewares/passport-jwt';
 import auth from './v1/routes/auth';
 import bookmarks from './v1/routes/bookmarks';
+import User from './v2/models/User';
 
 dotenv.config(); // setting up dotenv to use .env variable
 const app = express();
