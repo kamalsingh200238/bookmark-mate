@@ -8,6 +8,7 @@ import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import authMiddleware from './v1/middlewares/passport-jwt';
 import auth from './v1/routes/auth';
 import bookmarks from './v1/routes/bookmarks';
+import authV2 from './v2/routes/auth';
 import User from './v2/models/User';
 
 dotenv.config(); // setting up dotenv to use .env variable
@@ -61,8 +62,12 @@ app.get('/protected', authMiddleware, (req, res) => {
 });
 
 // routes
+// v1
 app.use('/api/v1/auth/', auth);
 app.use('/api/v1/bookmarks/', authMiddleware, bookmarks); // all routes in the bookmark routes requires authentication, so added the auth middleware
+
+// v2
+app.use('/api/v2/auth/', authV2);
 
 async function start() {
   const db = process.env.DB_STRING as string; //set db to the DB_STRING from the env file
