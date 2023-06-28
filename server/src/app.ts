@@ -3,12 +3,12 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import auth from './routes/auth';
-import bookmarks from './routes/bookmarks';
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
-import User from './models/User';
-import authMiddleware from './middlewares/passport-jwt';
+import User from './v1/models/User';
+import authMiddleware from './v1/middlewares/passport-jwt';
+import auth from './v1/routes/auth';
+import bookmarks from './v1/routes/bookmarks';
 
 dotenv.config(); // setting up dotenv to use .env variable
 const app = express();
